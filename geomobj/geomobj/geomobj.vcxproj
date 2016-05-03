@@ -85,12 +85,13 @@
   <ItemGroup>
     <ClInclude Include="Icircle.h" />
     <ClInclude Include="ILine.h" />
-    <ClInclude Include="IRoot.h" />
+    <ClInclude Include="Plex.h" />
     <ClInclude Include="Ishape.h" />
     <ClInclude Include="IPoint.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="stack.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">

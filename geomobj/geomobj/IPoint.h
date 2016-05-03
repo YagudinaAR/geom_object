@@ -5,59 +5,56 @@
 using namespace std;
 using namespace System::Drawing;
 
-/*struct TPoint
+struct TPoint
 {
 	int x;
 	int y;
-};*/
+	TPoint *next;
+};
 
 class Ipoint: public Ishape
 {
 public:
-	int x, y;
-	Ipoint()
+	TPoint *p;
+	Ipoint(TPoint *_p) :p(_p)
 	{
-		x = 0;
-		y = 0;
+		Active = false;
+		Visible = false;
 	}
-	Ipoint(int _x, int _y)
+
+	void setpoint(TPoint *pp)
 	{
-		x = _x;
-		y = _y;
+		p = pp;
 	}
-	void setcoord(int _x, int _y)
+	void setpointcoord(int _x, int _y)
 	{
-		x = _x;
-		y = _y;
+		p->x = _x;
+		p->y = _y;
+		
 	}
-	/*TPoint *getPoint()
+	TPoint* getpoint()
 	{
-	return p;
-	}*/
+		return p;
+	}
 	int getx()
 	{
-		return x;
+		return p->x;
 	}
 	int gety()
 	{
-		return y;
+		return p->y;
 	}
 
 	~Ipoint()
 	{
 		//delete p;
 	}
-	Ipoint &operator=(const Ipoint &_p)
-	{
-		x = _p.x;
-		y = _p.y;
-		return *this;
-	}
+
 	virtual void show(Graphics ^g)
 	{
 		if (!IsVisible() && IsActive())
 		{
-			g->DrawEllipse(Pens::Black,x - 2, y - 2, 4, 4);
+			g->DrawEllipse(Pens::Black,p->x - 2, p->y - 2, 4, 4);
 			Visible = true;
 		}
 	}
@@ -65,15 +62,15 @@ public:
 	{
 		if (IsVisible() && IsActive())
 		{
-			g->DrawEllipse(Pens::White, x - 2, y - 2, 4, 4);
+			g->DrawEllipse(Pens::White, p->x - 2, p->y - 2, 4, 4);
 			Visible = false;
 		}
 	}
 	virtual void move(Graphics ^g, int X, int Y)
 	{
 		hide(g);
-		x += X;
-		y += Y;
+		p->x += X;
+		p->y += Y;
 		show(g);
 
 	}

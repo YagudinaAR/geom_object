@@ -8,35 +8,38 @@ using namespace std;
 class ILine:public Ishape
 {
 protected:
-	Ipoint bpoint, fpoint;
+	TPoint *l;
+	TPoint *r;
 public:
 
-	ILine(Ipoint _x, Ipoint _y)
+	ILine(TPoint *l1, TPoint *r1) :l(l1), r(r1)
 	{
-		bpoint = _x;
-		fpoint = _y;
 	    Active=false;
 		Visible=false;
 	}
 	~ILine();
-	void setline(Ipoint _x, Ipoint _y)
+	void setline(TPoint *l1, TPoint *r1)
 	{
-		bpoint = _x;
-		fpoint = _y;
+		l->x = l1->x;
+		l->y = l1->y;
+		r->x = r1->x;
+		r->y = r1->y;
+		l->next = NULL;
+		r->next = NULL;
 	}
-	Ipoint getbpoint()
+	TPoint *getLline()
 	{
-		return bpoint;
+		return l;
 	}
-	Ipoint getfpoint()
+	TPoint *getRline()
 	{
-		return fpoint;
+		return r;
 	}
 	virtual void show(Graphics ^g)
 	{
 		if (!IsVisible() && IsActive())
 		{
-			g->DrawLine(Pens::Black, bpoint.x, bpoint.y, fpoint.x, fpoint.y);
+			g->DrawLine(Pens::Black, l->x, l->y, r->x, r->y);
 			Visible = true;
 		}
 	}
@@ -44,15 +47,15 @@ public:
 	{
 		if (IsVisible() && IsActive())
 		{
-			g->DrawLine(Pens::White, bpoint.x, bpoint.y, fpoint.x, fpoint.y);
+			g->DrawLine(Pens::White, l->x, l->y, r->x, r->y);
 			Visible = false;
 		}
 	}
 	virtual void move(Graphics ^g, int X, int Y)
 	{
 		hide(g);
-		fpoint.x += X;
-		fpoint.y += Y;
+		r->x += X;
+		r->y += Y;
 		show(g);
 	}
 

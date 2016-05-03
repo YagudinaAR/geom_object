@@ -6,44 +6,37 @@ using namespace std;
 class Icircle: public Ishape
 {
 protected:
-	Ipoint p;
-	Ipoint t;
-
+	TPoint *l;
+	TPoint *r;
 public:
-	Icircle(Ipoint _p, Ipoint _t)
+	Icircle()
 	{
-		p = _p;
-		t = _t;
+		l = NULL;
+		r = NULL;
+		Active = false;
+		Visible = false;
 	}
-	~Icircle()
+	~Icircle();
+	void setcircle(TPoint *l1, TPoint *r1)
 	{
-
+		l->x = l1->x;
+		l->y = l1->y;
+		r->x = r1->x;
+		r->y = r1->y;
 	}
-
-	void setpointP(Ipoint _p)
+	TPoint *getLcircle()
 	{
-		p = _p;
+		return l;
 	}
-
-	void setpointT(Ipoint _t)
+	TPoint *getRcircle()
 	{
-		t = _t;
+		return r;
 	}
-
-	Ipoint getpointP()
-	{
-		return p;
-	}
-	Ipoint getpointT()
-	{
-		return t;
-	}
-
 	virtual void show(Graphics ^g)
 	{
 		if (!IsVisible() && IsActive())
 		{
-			g->DrawEllipse(Pens::Black,p.x-t.x,p.y-t.y,2*t.x,2*t.y);
+			g->DrawEllipse(Pens::Black,r->x-l->x,r->y-l->y,2*r->x,2*r->y);
 			Visible = true;
 		}
 	}
@@ -51,15 +44,15 @@ public:
 	{
 		if (IsVisible() && IsActive())
 		{
-			g->DrawEllipse(Pens::White, p.x - t.x, p.y - t.y, 2 * t.x, 2 * t.y);
+			g->DrawEllipse(Pens::White, r->x - l->x, r->y - l->y, 2 * r->x, 2 * r->y);
 			Visible = false;
 		}
 	}
 	virtual void move(Graphics ^g, int X, int Y)
 	{
 		hide(g);
-		t.x += X;
-		t.y += Y;
+		r->x += X;
+		r->y += Y;
 		show(g);
 	}
 

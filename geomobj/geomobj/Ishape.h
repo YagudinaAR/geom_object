@@ -32,6 +32,7 @@ public:
 	{
 		return Active;
 	}
+
 	virtual void show(Graphics ^g) = 0;//показать объект
 	virtual void hide(Graphics ^g) = 0;//скрыть
 	virtual void move(Graphics ^g,int X, int Y) = 0;//двигать

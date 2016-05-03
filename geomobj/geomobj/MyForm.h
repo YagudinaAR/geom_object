@@ -175,64 +175,63 @@ namespace geomobj {
 
 		}
 #pragma endregion
-		
-	
-	Ipoint *unit= new Ipoint[10];
 
-		int x0=0, y0=0,x=0,y=0;
+
+
+		int x0 = 0, y0 = 0, x = 0, y = 0;
 		bool IsClicked = false;
-	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) 
+	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e)
 	{
 	}
-private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) 
-{
-
-	/*t->setcoord(Convert::ToInt32(textBox1->Text), Convert::ToInt32(textBox2->Text));
-	pictureBox1->Refresh();*/
-}
-
-//private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {}
-
-private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) 
-{
-	Application::Exit();
-}
-private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) 
-{
-	pictureBox1->Refresh();
-}
-private: System::Void pictureBox1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) 
-{
-	IsClicked = true;
-
-	
-}
-private: System::Void pictureBox1_MouseUp(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e)
-{
-	if (IsClicked)
+	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e)
 	{
-		x = e->X;
-		y = e->Y;
-		Graphics^ g = this->pictureBox1->CreateGraphics();
+
+		/*t->setcoord(Convert::ToInt32(textBox1->Text), Convert::ToInt32(textBox2->Text));
+		pictureBox1->Refresh();*/
+	}
+
+			 //private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {}
+
+	private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		Application::Exit();
+	}
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		pictureBox1->Refresh();
+	}
+	private: System::Void pictureBox1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+	{
+		IsClicked = true;
+
+
+	}
+	private: System::Void pictureBox1_MouseUp(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e)
+	{
+		if (IsClicked)
+		{
+			x = e->X;
+			y = e->Y;
+			Graphics^ g = this->pictureBox1->CreateGraphics();
+
+		}
+
+	}
+	private: System::Void pictureBox1_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+	{
+		if (IsClicked)
+		{
+			x0 = e->X;
+			y0 = e->Y;
+			pictureBox1->Invalidate();
+		}
+
+	}
+	private: System::Void pictureBox1_Paint_1(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e)
+	{
+
 
 	}
 
-}
-private: System::Void pictureBox1_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) 
-{
-	if (IsClicked)
-	{
-		x0 = e->X;
-		y0 = e->Y;
-		pictureBox1->Invalidate();
-	}
-
-}
- private: System::Void pictureBox1_Paint_1(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e)
- {
-
-
- }
-
-};
+	};
 }
