@@ -9,11 +9,10 @@ struct Tpoint
 	int x;
 	int y;
 	Tpoint() :x(0), y(0){};
-	Tpoint(int _x,int _y) :x(_x), y(_y){};
-	void setcoord(int _x, int _y)
+	Tpoint(int _x, int _y) :x(_x), y(_y){};
+	bool compare(const Tpoint &p)//поиск точки в окрестности
 	{
-		x = _x;
-		y = _y;
+		return (x - 10 > p.x) && (x + 10 < p.x) && (y - 10 > p.y) && (y + 10 < p.y);
 	}
 };
 
@@ -22,44 +21,36 @@ class shape
 public:
 	bool isVisible;
 	bool isActive;
-	shape() :isVisible(false), isActive(false){};
+	shape() :isVisible(false), isActive(false){};//false
 	virtual void Show(Graphics ^g) = 0;
-	virtual void Hide(Graphics ^g) = 0;
-	//virtual int cntPoint() = 0;
+	virtual void Hide() = 0;
 	virtual bool isPoint() = 0;
 	virtual bool isLine() = 0;
 	virtual bool isCircle() = 0;
-	//virtual Tpoint *getbasepoint() = 0;
+	virtual bool cmp1(const Tpoint &pn1) = 0;
+	virtual bool cmp2(const Tpoint &pn1, const Tpoint &pn2) = 0;
+	virtual Tpoint *getbasepoint() = 0;
 };
 
 class Ipoint : public shape
 {
-public:
 	Tpoint *p;
+public:
 	Ipoint(Tpoint *_p) : p(_p) {}
 	void Show(Graphics ^g)
 	{
-		g->DrawEllipse(Pens::Black, p->x - 2, p->y - 2, 4, 4);
 		isVisible = true;
-		isActive = true;
+		g->DrawEllipse(Pens::Black, p->x - 2, p->y - 2, 4, 4);
 
 	}
-	void Hide(Graphics ^g)
+	void Hide()
 	{
-		g->DrawEllipse(Pens::DarkTurquoise, p->x - 2, p->y - 2, 4, 4);
 		isVisible = false;
-		isActive = false;
-	}
-
-	void setmove(int _x, int _y)
-	{
-		p->x = _x;
-		p->y = _y;
 	}
 
 	bool isPoint()
 	{
-			return true;
+		return true;
 	}
 
 	bool isLine()
@@ -71,12 +62,27 @@ public:
 	{
 		return false;
 	}
+
+	bool cmp1(const Tpoint &pn1)
+	{
+		return p->compare(pn1);
+	}
+
+	bool cmp2(const Tpoint &pn1, const Tpoint &pn2)
+	{
+		return false;
+	}
+
+	Tpoint *getbasepoint()
+	{
+		return p;
+	}
 };
 
 class Iline : public shape
 {
-public:
 	Tpoint *l, *r;
+public:
 	Iline(Tpoint *_l, Tpoint *_r) :l(_l), r(_r){};
 	void Show(Graphics ^g)
 	{
@@ -84,27 +90,10 @@ public:
 		isActive = true;
 		isVisible = true;
 	}
-	void Hide(Graphics ^g)
+	void Hide()
 	{
-		g->DrawLine(Pens::DarkTurquoise, l->x, l->y, r->x, r->y);
-		isActive = false;
 		isVisible = false;
 	}
-
-	void setmove(Tpoint *p, int _x, int _y)
-	{
-		if (l == p)
-		{
-			l->x = _x;
-			l->y = _y;
-		}
-		if (r == p)
-		{
-			r->x = _x;
-			r->y = _y;
-		}
-	}
-
 	bool isPoint()
 	{
 		return false;
@@ -119,5 +108,20 @@ public:
 	{
 		return false;
 	}
+	bool cmp1(const Tpoint &pn1)
+	{
+		return false;
+	}
+
+	bool cmp2(const Tpoint &pn1, const Tpoint &pn2)//левая точка или правая точка
+	{
+		return (l->compare(pn1) && r->compare(pn2));
+
+	}
+	Tpoint *getbasepoint()
+	{
+		return NULL;
+	}
 };
+
 

@@ -39,16 +39,20 @@ namespace Igraphics {
 	protected:
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Label^  label2;
-	private: System::Windows::Forms::RadioButton^  radioButton1;
-	private: System::Windows::Forms::RadioButton^  radioButton2;
-	private: System::Windows::Forms::RadioButton^  radioButton3;
+	private: System::Windows::Forms::RadioButton^  rpoint;
+	private: System::Windows::Forms::RadioButton^  rline;
+	private: System::Windows::Forms::RadioButton^  rmove;
+
+
+
 
 
 	private: System::Windows::Forms::Button^  button2;
 	private: System::Windows::Forms::Panel^  panel1;
 	private: System::Windows::Forms::Panel^  panel2;
 	private: System::Windows::Forms::Panel^  panel3;
-	private: System::Windows::Forms::RadioButton^  radioButton4;
+	private: System::Windows::Forms::RadioButton^  rdelete;
+
 
 	private:
 		/// <summary>
@@ -66,14 +70,14 @@ namespace Igraphics {
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton3 = (gcnew System::Windows::Forms::RadioButton());
+			this->rpoint = (gcnew System::Windows::Forms::RadioButton());
+			this->rline = (gcnew System::Windows::Forms::RadioButton());
+			this->rmove = (gcnew System::Windows::Forms::RadioButton());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
 			this->panel2 = (gcnew System::Windows::Forms::Panel());
 			this->panel3 = (gcnew System::Windows::Forms::Panel());
-			this->radioButton4 = (gcnew System::Windows::Forms::RadioButton());
+			this->rdelete = (gcnew System::Windows::Forms::RadioButton());
 			this->SuspendLayout();
 			// 
 			// button1
@@ -104,41 +108,38 @@ namespace Igraphics {
 			this->label2->TabIndex = 2;
 			this->label2->Text = L"label2";
 			// 
-			// radioButton1
+			// rpoint
 			// 
-			this->radioButton1->AutoSize = true;
-			this->radioButton1->Location = System::Drawing::Point(669, 48);
-			this->radioButton1->Name = L"radioButton1";
-			this->radioButton1->Size = System::Drawing::Size(48, 17);
-			this->radioButton1->TabIndex = 3;
-			this->radioButton1->TabStop = true;
-			this->radioButton1->Text = L"point";
-			this->radioButton1->UseVisualStyleBackColor = true;
-			this->radioButton1->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton1_CheckedChanged);
+			this->rpoint->AutoSize = true;
+			this->rpoint->Location = System::Drawing::Point(669, 48);
+			this->rpoint->Name = L"rpoint";
+			this->rpoint->Size = System::Drawing::Size(48, 17);
+			this->rpoint->TabIndex = 3;
+			this->rpoint->TabStop = true;
+			this->rpoint->Text = L"point";
+			this->rpoint->UseVisualStyleBackColor = true;
 			// 
-			// radioButton2
+			// rline
 			// 
-			this->radioButton2->AutoSize = true;
-			this->radioButton2->Location = System::Drawing::Point(669, 71);
-			this->radioButton2->Name = L"radioButton2";
-			this->radioButton2->Size = System::Drawing::Size(41, 17);
-			this->radioButton2->TabIndex = 4;
-			this->radioButton2->TabStop = true;
-			this->radioButton2->Text = L"line";
-			this->radioButton2->UseVisualStyleBackColor = true;
-			this->radioButton2->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton2_CheckedChanged);
+			this->rline->AutoSize = true;
+			this->rline->Location = System::Drawing::Point(669, 71);
+			this->rline->Name = L"rline";
+			this->rline->Size = System::Drawing::Size(41, 17);
+			this->rline->TabIndex = 4;
+			this->rline->TabStop = true;
+			this->rline->Text = L"line";
+			this->rline->UseVisualStyleBackColor = true;
 			// 
-			// radioButton3
+			// rmove
 			// 
-			this->radioButton3->AutoSize = true;
-			this->radioButton3->Location = System::Drawing::Point(669, 94);
-			this->radioButton3->Name = L"radioButton3";
-			this->radioButton3->Size = System::Drawing::Size(51, 17);
-			this->radioButton3->TabIndex = 5;
-			this->radioButton3->TabStop = true;
-			this->radioButton3->Text = L"move";
-			this->radioButton3->UseVisualStyleBackColor = true;
-			this->radioButton3->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton3_CheckedChanged);
+			this->rmove->AutoSize = true;
+			this->rmove->Location = System::Drawing::Point(669, 94);
+			this->rmove->Name = L"rmove";
+			this->rmove->Size = System::Drawing::Size(51, 17);
+			this->rmove->TabIndex = 5;
+			this->rmove->TabStop = true;
+			this->rmove->Text = L"move";
+			this->rmove->UseVisualStyleBackColor = true;
 			// 
 			// button2
 			// 
@@ -157,6 +158,7 @@ namespace Igraphics {
 			this->panel1->Name = L"panel1";
 			this->panel1->Size = System::Drawing::Size(660, 364);
 			this->panel1->TabIndex = 9;
+			this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::panel1_Paint);
 			this->panel1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::panel1_MouseDown);
 			this->panel1->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::panel1_MouseUp);
 			// 
@@ -174,16 +176,16 @@ namespace Igraphics {
 			this->panel3->Size = System::Drawing::Size(137, 289);
 			this->panel3->TabIndex = 0;
 			// 
-			// radioButton4
+			// rdelete
 			// 
-			this->radioButton4->AutoSize = true;
-			this->radioButton4->Location = System::Drawing::Point(669, 117);
-			this->radioButton4->Name = L"radioButton4";
-			this->radioButton4->Size = System::Drawing::Size(65, 17);
-			this->radioButton4->TabIndex = 0;
-			this->radioButton4->TabStop = true;
-			this->radioButton4->Text = L"del point";
-			this->radioButton4->UseVisualStyleBackColor = true;
+			this->rdelete->AutoSize = true;
+			this->rdelete->Location = System::Drawing::Point(669, 117);
+			this->rdelete->Name = L"rdelete";
+			this->rdelete->Size = System::Drawing::Size(65, 17);
+			this->rdelete->TabIndex = 0;
+			this->rdelete->TabStop = true;
+			this->rdelete->Text = L"del point";
+			this->rdelete->UseVisualStyleBackColor = true;
 			// 
 			// MyForm
 			// 
@@ -191,14 +193,14 @@ namespace Igraphics {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::DarkTurquoise;
 			this->ClientSize = System::Drawing::Size(1057, 378);
-			this->Controls->Add(this->radioButton4);
+			this->Controls->Add(this->rdelete);
 			this->Controls->Add(this->panel3);
 			this->Controls->Add(this->panel2);
 			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->button2);
-			this->Controls->Add(this->radioButton3);
-			this->Controls->Add(this->radioButton2);
-			this->Controls->Add(this->radioButton1);
+			this->Controls->Add(this->rmove);
+			this->Controls->Add(this->rline);
+			this->Controls->Add(this->rpoint);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->button1);
@@ -210,22 +212,15 @@ namespace Igraphics {
 
 		}
 #pragma endregion
-		Gtable *s= new Gtable();
-		Tpoint *p1, *p2, *pnt=NULL;
+		Gtable *table= new Gtable();
+		Tpoint *tp1, *tp2, *pnt=NULL;
+		Ipoint *p1, *p2;
+		bool line = false;
 		int x, y, x0, y0;
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e)
 	{
 		x = y = x0 = y0 = 0;
 	}
-private: System::Void radioButton1_CheckedChanged(System::Object^  sender, System::EventArgs^  e) 
-{
-}
-private: System::Void radioButton2_CheckedChanged(System::Object^  sender, System::EventArgs^  e) 
-{
-}
-private: System::Void radioButton3_CheckedChanged(System::Object^  sender, System::EventArgs^  e) 
-{
-}
 
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) 
 {
@@ -236,86 +231,102 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 	Application::Exit();
 }
 
-private: System::Void panel1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) 
+private: System::Void panel1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
 {
-	x = e->X;
-	y = e->Y;
-
-	if (radioButton3->Checked)
-	{
-		if (s->findpoint(x, y))
-		{
-			Graphics^ g = this->panel1->CreateGraphics();
-			Ipoint *pn = new Ipoint(s->findpoint(x, y));
-			pn->Hide(g);
-		}
-		if (s->findline(x, y))
-		{
-			Graphics^ g1 = this->panel1->CreateGraphics();
-			Iline *ln = new Iline(s->findline(x, y)->l, s->findline(x, y)->r);
-			ln->Hide(g1);
-		}
-
-	}
-
 
 
 }
 
-private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) 
+	private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+	{
+		/*tp1 = new Tpoint(e->X, e->Y);
+		Graphics^ g = panel1->CreateGraphics();
+		if (rpoint->Checked)
+		{
+		p1 = new Ipoint(tp1);
+		table->add(p1);
+		p1->Show(g);
+
+		}*/
+		//if (rline->Checked)
+		//{
+		//	ln = new Iline(p1->getbasepoint(), tp2);
+		//	table->add(ln);
+		//	ln->Show(g);
+		//}
+
+	}
+			 /*	 if (radioButton2->Checked)
+			 {
+			 Tpoint *p1 = new Tpoint(x, y);
+			 if (s->findpoint(x0, y0))
+			 {
+			 Tpoint *p2 = new Tpoint(x0, y0);
+			 Iline *ln = new Iline(p1, p2);
+			 s->add(ln);
+			 ln->Show(g);
+			 }
+			 }
+			 if (radioButton3->Checked)
+			 {
+
+			 if (s->findpoint(x, y))
+			 {
+			 if (s->findline(x, y))
+			 {
+			 Graphics^ g1 = this->panel1->CreateGraphics();
+			 Iline *ln = new Iline(s->findline(x, y)->l, s->findline(x, y)->r);
+			 ln->setmove(s->findpoint(x, y), e->X, e->Y);
+			 ln->Show(g1);
+			 }
+			 Graphics^ g2 = this->panel1->CreateGraphics();
+			 Ipoint *pn = new Ipoint(s->findpoint(x, y));
+			 pn->setmove(e->X, e->Y);
+			 pn->Show(g2);
+
+			 }
+
+			 }
+
+			 if (radioButton4->Checked)
+			 {
+			 if (s->findline(x0, y0))
+			 s->delline(s->findline(x0, y0), g);
+			 if (s->findpoint(x0, y0))
+			 s->delpoint(x0, y0, g);
+			 }*/
+	private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e)
+	{
+		table->show(e->Graphics);
+	}
+
+
+private: System::Void panel1_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
 {
-	x0 = e->X;
-	y0 = e->Y;
-	Graphics^ g = this->panel1->CreateGraphics();
-	if (radioButton1->Checked)
+	Graphics^ g = panel1->CreateGraphics();
+	tp1 = new Tpoint(e->X, e->Y);
+	if (rpoint->Checked)
 	{
-		Tpoint *p = new Tpoint(x0, y0);
-		Ipoint *pp = new Ipoint(p);
-		s->add(pp);
-		pp->Show(g);
-		s->draw(panel2);
-	}
-	if (radioButton2->Checked)
-	{
-		Tpoint *p1 = new Tpoint( x,y);
-		if (s->findpoint(x0, y0))
-		{
-			Tpoint *p2 = new Tpoint(x0,y0);
-			Iline *ln = new Iline(p1, p2);
-			s->add(ln);
-			ln->Show(g);
-		}
-	}
-	if (radioButton3->Checked)
-	{
-		
-		if (s->findpoint(x, y))
-		{
-			if (s->findline(x, y))
-			{
-				Graphics^ g1 = this->panel1->CreateGraphics();
-				Iline *ln = new Iline(s->findline(x, y)->l, s->findline(x, y)->r);
-				ln->setmove(s->findpoint(x, y), e->X, e->Y);
-				ln->Show(g1);
-			}
-			Graphics^ g2 = this->panel1->CreateGraphics();
-			Ipoint *pn = new Ipoint(s->findpoint(x, y));
-			pn->setmove(e->X, e->Y);
-			pn->Show(g2);
-
-		}
+		p1 = new Ipoint(tp1);
+		table->add(p1);
+		p1->Show(g);
 
 	}
-
-	if (radioButton4->Checked)
+	if (rline->Checked)
 	{
-		if (s->findline(x0, y0))
-			s->delline(s->findline(x0, y0), g);
-		if (s->findpoint(x0, y0))
-			s->delpoint(x0, y0,g);
+		/*if (line==false)
+		{*/
+		p1 = new Ipoint(table->findpoint(tp1)->getbasepoint());
+		line = true;
+		//}
+		//else
+		//{
+		//ln = new Iline(p1->getbasepoint(), tp1);
+		//table->add(ln);
+		//ln->Show(g);
+
+
 	}
 }
-
-
 };
 }
