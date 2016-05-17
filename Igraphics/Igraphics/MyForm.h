@@ -1,8 +1,12 @@
 #pragma once
 #include"shape.h"
 #include"Gtable.h"
+#include"htable.h"
+#include<iostream>
+#include <math.h>
 namespace Igraphics {
 
+	using namespace std;
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
@@ -47,11 +51,17 @@ namespace Igraphics {
 
 
 
+
+
 	private: System::Windows::Forms::Button^  button2;
 	private: System::Windows::Forms::Panel^  panel1;
 	private: System::Windows::Forms::Panel^  panel2;
 	private: System::Windows::Forms::Panel^  panel3;
 	private: System::Windows::Forms::RadioButton^  rdelete;
+	private: System::Windows::Forms::RadioButton^  rcircle;
+	private: System::Windows::Forms::RadioButton^  rrectangle;
+
+
 
 
 	private:
@@ -78,6 +88,8 @@ namespace Igraphics {
 			this->panel2 = (gcnew System::Windows::Forms::Panel());
 			this->panel3 = (gcnew System::Windows::Forms::Panel());
 			this->rdelete = (gcnew System::Windows::Forms::RadioButton());
+			this->rcircle = (gcnew System::Windows::Forms::RadioButton());
+			this->rrectangle = (gcnew System::Windows::Forms::RadioButton());
 			this->SuspendLayout();
 			// 
 			// button1
@@ -104,9 +116,9 @@ namespace Igraphics {
 			this->label2->AutoSize = true;
 			this->label2->Location = System::Drawing::Point(951, 22);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(35, 13);
+			this->label2->Size = System::Drawing::Size(39, 13);
 			this->label2->TabIndex = 2;
-			this->label2->Text = L"label2";
+			this->label2->Text = L"display";
 			// 
 			// rpoint
 			// 
@@ -133,7 +145,7 @@ namespace Igraphics {
 			// rmove
 			// 
 			this->rmove->AutoSize = true;
-			this->rmove->Location = System::Drawing::Point(669, 94);
+			this->rmove->Location = System::Drawing::Point(669, 140);
 			this->rmove->Name = L"rmove";
 			this->rmove->Size = System::Drawing::Size(51, 17);
 			this->rmove->TabIndex = 5;
@@ -179,7 +191,7 @@ namespace Igraphics {
 			// rdelete
 			// 
 			this->rdelete->AutoSize = true;
-			this->rdelete->Location = System::Drawing::Point(669, 117);
+			this->rdelete->Location = System::Drawing::Point(669, 163);
 			this->rdelete->Name = L"rdelete";
 			this->rdelete->Size = System::Drawing::Size(65, 17);
 			this->rdelete->TabIndex = 0;
@@ -187,12 +199,36 @@ namespace Igraphics {
 			this->rdelete->Text = L"del point";
 			this->rdelete->UseVisualStyleBackColor = true;
 			// 
+			// rcircle
+			// 
+			this->rcircle->AutoSize = true;
+			this->rcircle->Location = System::Drawing::Point(669, 94);
+			this->rcircle->Name = L"rcircle";
+			this->rcircle->Size = System::Drawing::Size(50, 17);
+			this->rcircle->TabIndex = 11;
+			this->rcircle->TabStop = true;
+			this->rcircle->Text = L"circle";
+			this->rcircle->UseVisualStyleBackColor = true;
+			// 
+			// rrectangle
+			// 
+			this->rrectangle->AutoSize = true;
+			this->rrectangle->Location = System::Drawing::Point(669, 117);
+			this->rrectangle->Name = L"rrectangle";
+			this->rrectangle->Size = System::Drawing::Size(69, 17);
+			this->rrectangle->TabIndex = 12;
+			this->rrectangle->TabStop = true;
+			this->rrectangle->Text = L"rectangle";
+			this->rrectangle->UseVisualStyleBackColor = true;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::DarkTurquoise;
 			this->ClientSize = System::Drawing::Size(1057, 378);
+			this->Controls->Add(this->rrectangle);
+			this->Controls->Add(this->rcircle);
 			this->Controls->Add(this->rdelete);
 			this->Controls->Add(this->panel3);
 			this->Controls->Add(this->panel2);
@@ -213,9 +249,12 @@ namespace Igraphics {
 		}
 #pragma endregion
 		Gtable *table= new Gtable();
-		Tpoint *tp1, *tp2, *pnt=NULL;
+		htable *tbl2 = new htable();
+		Tpoint *tp1, *tp2,*tp3, *pnt=NULL;
 		Ipoint *p1, *p2;
-		bool line = false;
+		Iline *ln = NULL;
+		Icircle *cl = NULL;
+		Irectangle *rc = NULL;
 		int x, y, x0, y0;
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e)
 	{
@@ -233,100 +272,99 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 
 private: System::Void panel1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
 {
-
+	tp2 = new Tpoint(e->X, e->Y);
+	shape *s = table->findpoint(tp2);
+	if ((rline->Checked) || (rmove->Checked) || (rcircle->Checked) || (rrectangle->Checked))
+	{
+		if (s != NULL)
+			pnt = s->getbasepoint();
+	}
 
 }
 
 	private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
 	{
-		/*tp1 = new Tpoint(e->X, e->Y);
+		tp1 = new Tpoint(e->X, e->Y);
 		Graphics^ g = panel1->CreateGraphics();
 		if (rpoint->Checked)
 		{
-		p1 = new Ipoint(tp1);
-		table->add(p1);
-		p1->Show(g);
+			p1 = new Ipoint(tp1);
+			table->add(p1);
+			p1->Show(g);
+			tbl2->addpoint(p1);
+			tbl2->show(panel2, panel3);
+		}
 
-		}*/
-		//if (rline->Checked)
-		//{
-		//	ln = new Iline(p1->getbasepoint(), tp2);
-		//	table->add(ln);
-		//	ln->Show(g);
-		//}
+		if (rline->Checked)
+		{
+			shape *s = table->findpoint(tp1);
+			if (s != NULL)
+			{
+				ln = new Iline(pnt, s->getbasepoint());
+				table->add(ln);
+				ln->Show(g);
+			}
+			else throw"not found point";
+
+		}
+
+		if (rrectangle->Checked)
+		{
+			shape *s = table->findpoint(tp1);
+			if (s != NULL)
+			{
+				rc = new Irectangle(pnt, s->getbasepoint());
+				table->add(rc);
+				rc->Show(g);
+			}
+			else throw"not found point";
+		}
+
+		if (rcircle->Checked)
+		{
+			shape *s = table->findpoint(tp1);
+			if (s != NULL)
+			{
+				cl = new Icircle(pnt, s->getbasepoint());
+				table->add(cl);
+				cl->Show(g);
+			}
+			else throw"not found point";
+		}
+
+		if (rmove->Checked)
+		{
+			Ipoint *pn = (Ipoint*)table->findpoint(tp2);
+			shape *s=table->findpoint(pnt);
+			if (s != NULL)
+			{
+				s->getbasepoint()->setmove(*tp1);
+				Refresh();
+				tbl2->add((Ipoint*)pn,tp1);
+				tbl2->show(panel2, panel3);
+			}
+
+		}
+
+		if (rdelete->Checked)
+		{
+			shape *s = table->findpoint(tp1);
+			if (s != NULL)
+			{
+				table->del(s->getbasepoint());
+				Refresh();
+				tbl2->delIpoint((Ipoint*)s);
+				tbl2->show(panel2, panel3);
+			}
+		}
 
 	}
-			 /*	 if (radioButton2->Checked)
-			 {
-			 Tpoint *p1 = new Tpoint(x, y);
-			 if (s->findpoint(x0, y0))
-			 {
-			 Tpoint *p2 = new Tpoint(x0, y0);
-			 Iline *ln = new Iline(p1, p2);
-			 s->add(ln);
-			 ln->Show(g);
-			 }
-			 }
-			 if (radioButton3->Checked)
-			 {
 
-			 if (s->findpoint(x, y))
-			 {
-			 if (s->findline(x, y))
-			 {
-			 Graphics^ g1 = this->panel1->CreateGraphics();
-			 Iline *ln = new Iline(s->findline(x, y)->l, s->findline(x, y)->r);
-			 ln->setmove(s->findpoint(x, y), e->X, e->Y);
-			 ln->Show(g1);
-			 }
-			 Graphics^ g2 = this->panel1->CreateGraphics();
-			 Ipoint *pn = new Ipoint(s->findpoint(x, y));
-			 pn->setmove(e->X, e->Y);
-			 pn->Show(g2);
-
-			 }
-
-			 }
-
-			 if (radioButton4->Checked)
-			 {
-			 if (s->findline(x0, y0))
-			 s->delline(s->findline(x0, y0), g);
-			 if (s->findpoint(x0, y0))
-			 s->delpoint(x0, y0, g);
-			 }*/
 	private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e)
 	{
 		table->show(e->Graphics);
 	}
 
 
-private: System::Void panel1_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
-{
-	Graphics^ g = panel1->CreateGraphics();
-	tp1 = new Tpoint(e->X, e->Y);
-	if (rpoint->Checked)
-	{
-		p1 = new Ipoint(tp1);
-		table->add(p1);
-		p1->Show(g);
-
-	}
-	if (rline->Checked)
-	{
-		/*if (line==false)
-		{*/
-		p1 = new Ipoint(table->findpoint(tp1)->getbasepoint());
-		line = true;
-		//}
-		//else
-		//{
-		//ln = new Iline(p1->getbasepoint(), tp1);
-		//table->add(ln);
-		//ln->Show(g);
-
-
-	}
-}
 };
 }

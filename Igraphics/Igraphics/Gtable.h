@@ -48,7 +48,7 @@ public:
 		shape *pnt = NULL;
 		for (int i = 0; i < cnt; i++)
 		{
-			if (table[i]->getbasepoint()->compare(*p))
+			if(table[i]->cmp1(*p))//if (table[i]->getbasepoint()->compare(*p))
 			{
 				pnt = table[i];
 				break;
@@ -68,9 +68,24 @@ public:
 		}
 	}
 
+	void del(Tpoint *tp)
+	{
+		for (int i = 0; i < cnt; i++)
+		{
+			if (table[i]->cmp1(*tp))
+			{
+				shape *s = table[i];
+				table[i] = table[cnt - 1];
+				table[cnt - 1] = s;
+				delete table[cnt - 1];
+				cnt--;
+				if (i != 0)
+					i--;
+			}
+		}
+	}
 
-
-	void draw(Panel ^p)
+	/*void draw(Panel ^p)
 	{
 
 		Graphics^ r = p->CreateGraphics();
@@ -78,13 +93,13 @@ public:
 		Font^ f = gcnew Font("Arial", 10);
 		for (int i = 0; i < cnt; i++)
 		{
-			if (table[i]->isPoint())
+			if (table[i]->getbasepoint())
 			{
 				String^ s = "x=" + ((Ipoint*)(table[i]))->getbasepoint()->x.ToString() + " y=" + ((Ipoint*)(table[i]))->getbasepoint()->y.ToString();
 				r->DrawString(s, f, Brushes::Black, 10, y);
 				y = y + 15;
 			}
 		}
-	}
-	//удаление
+	}*/
+
 };

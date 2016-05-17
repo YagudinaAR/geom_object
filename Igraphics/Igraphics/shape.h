@@ -10,9 +10,14 @@ struct Tpoint
 	int y;
 	Tpoint() :x(0), y(0){};
 	Tpoint(int _x, int _y) :x(_x), y(_y){};
+	void setmove(const Tpoint &p)
+	{
+		x = p.x;
+		y = p.y;
+	}
 	bool compare(const Tpoint &p)//поиск точки в окрестности
 	{
-		return (x - 10 > p.x) && (x + 10 < p.x) && (y - 10 > p.y) && (y + 10 < p.y);
+		return (x - 10 < p.x) && (x + 10 > p.x) && (y - 10 < p.y) && (y + 10 > p.y);
 	}
 };
 
@@ -23,12 +28,7 @@ public:
 	bool isActive;
 	shape() :isVisible(false), isActive(false){};//false
 	virtual void Show(Graphics ^g) = 0;
-	virtual void Hide() = 0;
-	virtual bool isPoint() = 0;
-	virtual bool isLine() = 0;
-	virtual bool isCircle() = 0;
 	virtual bool cmp1(const Tpoint &pn1) = 0;
-	virtual bool cmp2(const Tpoint &pn1, const Tpoint &pn2) = 0;
 	virtual Tpoint *getbasepoint() = 0;
 };
 
@@ -48,29 +48,9 @@ public:
 		isVisible = false;
 	}
 
-	bool isPoint()
-	{
-		return true;
-	}
-
-	bool isLine()
-	{
-		return false;
-	}
-
-	bool isCircle()
-	{
-		return false;
-	}
-
 	bool cmp1(const Tpoint &pn1)
 	{
 		return p->compare(pn1);
-	}
-
-	bool cmp2(const Tpoint &pn1, const Tpoint &pn2)
-	{
-		return false;
 	}
 
 	Tpoint *getbasepoint()
@@ -94,30 +74,66 @@ public:
 	{
 		isVisible = false;
 	}
-	bool isPoint()
-	{
-		return false;
-	}
 
-	bool isLine()
-	{
-		return true;
-	}
-
-	bool isCircle()
-	{
-		return false;
-	}
 	bool cmp1(const Tpoint &pn1)
 	{
-		return false;
+		return (l->compare(pn1) || r->compare(pn1));
 	}
 
-	bool cmp2(const Tpoint &pn1, const Tpoint &pn2)//левая точка или правая точка
+	Tpoint *getbasepoint()
 	{
-		return (l->compare(pn1) && r->compare(pn2));
-
+		return NULL;
 	}
+};
+
+class Icircle :public shape
+{
+	Tpoint *l, *r;
+public:
+	Icircle(Tpoint *_l, Tpoint *_r) :l(_l), r(_r){};
+	void Show(Graphics ^g)
+	{
+		g->DrawEllipse(Pens::Black, l->x, l->y, r->x-l->x, r->y-l->y);
+		isActive = true;
+		isVisible = true;
+	}
+	void Hide()
+	{
+		isVisible = false;
+	}
+
+	bool cmp1(const Tpoint &pn1)
+	{
+		return (l->compare(pn1) || r->compare(pn1));
+	}
+
+	Tpoint *getbasepoint()
+	{
+		return NULL;
+	}
+};
+
+class Irectangle : public shape
+{
+	Tpoint *l, *r;
+public:
+	Irectangle(Tpoint *_l, Tpoint *_r) :l(_l), r(_r){};
+	void Show(Graphics ^g)
+	{
+		g->DrawRectangle(Pens::Black, l->x, l->y, r->x - l->x, r->y - l->y);
+		isActive = true;
+		isVisible = true;
+	}
+	void Hide()
+	{
+		isVisible = false;
+	}
+
+	bool cmp1(const Tpoint &pn1)
+	{
+		return (l->compare(pn1) || r->compare(pn1));
+	}
+
 	Tpoint *getbasepoint()
 	{
 		return NULL;
